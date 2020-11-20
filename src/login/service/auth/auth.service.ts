@@ -54,7 +54,10 @@ export class AuthService {
 
     private _addUser(user: CreateUserDto): Observable<User> {
         return of(user).pipe(
-            tap(_ => this._users = this._users.concat(_)),
+            tap(_ => {
+                _.token = '';
+                this._users = this._users.concat(_);
+            }),
             map(_ => _)
         );
     }

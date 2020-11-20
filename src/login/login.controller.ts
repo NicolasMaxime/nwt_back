@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Post} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Post} from '@nestjs/common';
 import {VerifLoginDto} from './dto/verif-login.dto';
 import {AuthService} from './service/auth/auth.service';
 import {CreateUserDto} from './dto/create-user.dto';
@@ -25,5 +25,4 @@ export class LoginController {
     createUser(@Body() user: CreateUserDto) : Observable<User>{
         return this._auth.createLogin(user)
     }
-
 }
