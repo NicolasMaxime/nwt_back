@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import {Logger, Module} from '@nestjs/common';
 import { LoginController } from './login.controller';
 import { AuthService } from './service/auth/auth.service';
 import {JwtModule} from '@nestjs/jwt';

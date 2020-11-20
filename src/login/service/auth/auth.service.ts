@@ -6,6 +6,7 @@ import {filter, find, map, mergeMap, tap} from 'rxjs/operators';
 import {User} from '../../user.interface';
 import {JwtService} from '@nestjs/jwt';
 import {JwtConfigService} from '../jwt-config/jwt-config.service';
+import {UserEntity} from '../../entity/UserEntity';
 
 @Injectable()
 export class AuthService {
@@ -18,7 +19,7 @@ export class AuthService {
         this._users[0] = {login: 'test', password:'test', email:'test@test.com'};
     }
 
-    verifLogin(toVerif: VerifLoginDto): Observable<User>{
+    verifLogin(toVerif: VerifLoginDto): Observable<UserEntity>{
         return from (this._users).pipe(
             find(_ => _.login === toVerif.login &&
                 _.password === toVerif.password
@@ -30,17 +31,17 @@ export class AuthService {
         );
     }
 
-    private _assignToken(user: User): Observable<User>{
+    private _assignToken(user: User): Observable<UserEntity>{
         return of(user).pipe(
             tap(_ => _.token = this._jwtService.sign(
                 {sub: _.login},
                 this._jwtOption.createSignOption()
             )),
-          map(_ => _)
+          map(_ => new UserEntity(_))
         );
     }
 
-    createLogin(user: CreateUserDto): Observable<User>{
+    createLogin(user: CreateUserDto): Observable<UserEntity>{
         return from(this._users).pipe(
             find(_ => _.login === user.login),
             mergeMap(_ => !!_?
@@ -52,19 +53,20 @@ export class AuthService {
         );
     }
 
-    private _addUser(user: CreateUserDto): Observable<User> {
+    private _addUser(user: CreateUserDto): Observable<UserEntity> {
         return of(user).pipe(
-            tap(_ => {
-                _.token = '';
-                this._users = this._users.concat(_);
-            }),
-            map(_ => _)
+            map(_ => Object.assign(_, {
+                token: '',
+                }) as User,
+            ),
+            tap(_ => this._users = this._users.concat(_)),
+            map(_ => new UserEntity(_))
         );
     }
 
-    findall(): Observable<User[]> {
+    findall(): Observable<UserEntity[]> {
         return of(this._users).pipe(
-          map(_ => (!!_ && !!_.length)? _ : undefined)
+          map(_ => (!!_ && !!_.length)? _.map(__ => new UserEntity(__)) : undefined)
         );
     }
 }
