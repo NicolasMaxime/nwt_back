@@ -8,7 +8,7 @@ import { ProcessorModule } from './processor/processor.module';
 import { AppConfig } from './interfaces/app-config.interface';
 import { SwaggerConfig } from './interfaces/swagger-config.interface';
 
-async function bootstrap(config: AppConfig) {
+async function bootstrap(config: AppConfig, swaggerConfig : SwaggerConfig) {
     const app = await NestFactory.create<NestFastifyApplication>(
         AppModule,
         new FastifyAdapter({ logger: true }),
