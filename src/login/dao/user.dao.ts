@@ -5,7 +5,7 @@ import {Model, MongooseDocument} from 'mongoose';
 import {from, Observable, of, throwError} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {log} from 'util';
-import {UserEntity} from '../entity/UserEntity';
+import {AuthEntity} from '../entity/AuthEntity';
 import {CreateUserDto} from '../dto/create-user.dto';
 
 @Injectable()

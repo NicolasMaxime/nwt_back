@@ -1,12 +1,12 @@
 import {Injectable, NotFoundException} from '@nestjs/common';
-import {UserEntity} from '../../entity/UserEntity';
+import {AuthEntity} from '../../entity/AuthEntity';
 import {map, mergeMap, tap} from 'rxjs/operators';
 import {Observable, of, throwError} from 'rxjs';
 import {HashService, RandomStringService} from '@akanass/nestjsx-crypto';
 import {JwtService} from '@nestjs/jwt';
 import {JwtConfigService} from '../jwt-config/jwt-config.service';
 import {CreateUserDto} from '../../dto/create-user.dto';
-import {User} from '../../user.interface';
+import {UserEntity} from '../../../../dist/login/entity/UserEntity';
 
 @Injectable()
 export class AuthService {
@@ -22,12 +22,11 @@ export class AuthService {
      * @param user
      * @param password
      */
-    validateUser(user: UserEntity, password: string): Observable<UserEntity>{
+    validateUser(user: AuthEntity, password: string): Observable<AuthEntity>{
         return this._hashService.generate(password, user.salt, 4096, 24, 'sha256')
             .pipe(
-                tap(_ => console.log(user)),
-            mergeMap(_ => _.toString('hex') === user.password ?
-                this._assignToken(user)
+                mergeMap(_ => _.toString('hex') === user.password ?
+                this.assignToken(user)
                 : throwError( new NotFoundException('wrong login or password'))
             )
         );
@@ -38,7 +37,7 @@ export class AuthService {
      * @param user
      * @private
      */
-    private _assignToken(user: UserEntity): Observable<UserEntity>{
+    assignToken(user: AuthEntity): Observable<AuthEntity>{
         return of(user).pipe(
             tap(_ => _.token = this._jwtService.sign(
                 {sub: _.login},
@@ -54,7 +53,7 @@ export class AuthService {
      * @private
      */
 
-    generatePassword(user: CreateUserDto): Observable<User> {
+    generatePassword(user: CreateUserDto): Observable<AuthEntity> {
         return this._randomStringService.generate().pipe(
             tap(_ => user.salt = _),
             mergeMap(_ => this._hashService.generate(user.password, _, 4096, 24, 'sha256')),
@@ -63,7 +62,7 @@ export class AuthService {
                 of(user).pipe(
                     map(_ => Object.assign(_, {
                             token: '',
-                        }) as User,
+                        }) as AuthEntity,
                     ),
                 )));
     }

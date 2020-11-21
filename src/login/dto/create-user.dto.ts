@@ -9,12 +9,5 @@ export class CreateUserDto {
     password: string;
 
     @IsOptional()
-    @IsEmail()
-    email?: string;
-
-    @IsOptional()
-    token?: string;
-
-    @IsOptional()
     salt?: string;
 }

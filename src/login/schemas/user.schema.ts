@@ -10,6 +10,7 @@ export class User extends Document {
         required: true,
         minlength: 2,
         trim: true,
+        unique: true,
     })
     login: string;
 
@@ -28,38 +29,6 @@ export class User extends Document {
         trim: true,
     })
     password: string;
-
-    @Prop({
-        type: String,
-        required: false,
-        minlength: 2,
-        trim: true,
-    })
-    email: string;
-
-    @Prop({
-        type: String,
-        required: false,
-        minlength: 2,
-        trim: true,
-    })
-    firstname: string;
-
-    @Prop({
-        type: String,
-        required: false,
-        minlength: 2,
-        trim: true,
-    })
-    lastname: string;
-
-    @Prop({
-        type: String,
-        required: false,
-        minlength: 2,
-        trim: true,
-    })
-    config: any;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User)
