@@ -1,10 +1,11 @@
-import {Body, ClassSerializerInterceptor, Controller, Delete, Get, Post, UseInterceptors} from '@nestjs/common';
+import {Body, ClassSerializerInterceptor, Controller, Delete, Get, Post, UseGuards, UseInterceptors} from '@nestjs/common';
 import {VerifLoginDto} from './dto/verif-login.dto';
-import {AuthService} from './service/auth/auth.service';
+import {UserService} from './service/auth/user.service';
 import {CreateUserDto} from './dto/create-user.dto';
 import {Observable} from 'rxjs';
 import {UserEntity} from './entity/UserEntity';
 import {UserDao} from './dao/user.dao';
+import {AuthGuard} from './guards/auth.guard';
 
 @Controller('login')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -12,17 +13,18 @@ export class LoginController {
 
     /**
      * Constructor of LoginController
-     * @param _auth
+     * @param _userService
      */
-    constructor(private _auth: AuthService) {
+    constructor(private _userService: UserService) {
     }
 
     /**
      * GET route to fetch all user
      */
     @Get('all')
+    @UseGuards(AuthGuard)
     getallUsers() : Observable<UserEntity[] | void>{
-        return this._auth.findAll();
+        return this._userService.findAll();
     }
 
     /**
@@ -31,7 +33,7 @@ export class LoginController {
      */
     @Post('verify')
     login(@Body() loginToVerify: VerifLoginDto): Observable<UserEntity | void>{
-        return this._auth.verifLogin(loginToVerify);
+        return this._userService.verifLogin(loginToVerify);
     }
 
     /**
@@ -40,6 +42,7 @@ export class LoginController {
      */
     @Post('create')
     createUser(@Body() user: CreateUserDto) : Observable<UserEntity | void>{
-        return this._auth.createLogin(user)
+        return this._userService.createLogin(user)
     }
+
 }

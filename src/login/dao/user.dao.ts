@@ -19,6 +19,9 @@ export class UserDao {
     }
 
 
+    /**
+     * Return all users
+     */
     find(): Observable<User[] | void> {
         return from(this._userModel.find({}))
             .pipe(
@@ -26,6 +29,10 @@ export class UserDao {
             );
     }
 
+    /**
+     * Find and return a user by its login
+     * @param login
+     */
     findByLogin(login: string): Observable<User | void> {
         return from(this._userModel.findOne({login: login}))
             .pipe(
@@ -33,6 +40,10 @@ export class UserDao {
             );
     }
 
+    /**
+     * Save user in databse
+     * @param user
+     */
     save(user: CreateUserDto) : Observable<User>{
         return from(new this._userModel(user).save())
             .pipe(

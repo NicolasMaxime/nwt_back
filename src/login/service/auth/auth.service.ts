@@ -1,93 +1,84 @@
-import {ConflictException, Injectable, NotFoundException, UnprocessableEntityException} from '@nestjs/common';
-import {VerifLoginDto} from '../../dto/verif-login.dto';
-import {CreateUserDto} from '../../dto/create-user.dto';
-import {from, Observable, of, throwError} from 'rxjs';
-import {catchError, filter, find, map, mergeMap, tap} from 'rxjs/operators';
-import {User} from '../../user.interface';
+import {Injectable, NotFoundException} from '@nestjs/common';
+import {UserEntity} from '../../entity/UserEntity';
+import {map, mergeMap, tap} from 'rxjs/operators';
+import {Observable, of, throwError} from 'rxjs';
+import {HashService, RandomStringService} from '@akanass/nestjsx-crypto';
 import {JwtService} from '@nestjs/jwt';
 import {JwtConfigService} from '../jwt-config/jwt-config.service';
-import {UserEntity} from '../../entity/UserEntity';
-import {UserDao} from '../../dao/user.dao';
-import {HashService, RandomStringService} from '@akanass/nestjsx-crypto';
+import {CreateUserDto} from '../../dto/create-user.dto';
+import {User} from '../../user.interface';
 
 @Injectable()
 export class AuthService {
 
-    private _users: User[];
+    constructor( private readonly _randomStringService: RandomStringService,
+                private readonly _hashService: HashService,
+                private _jwtService: JwtService,
+                private _jwtOption: JwtConfigService
+                ) {}
 
-    constructor(private _jwtService: JwtService,
-                private _jwtOption: JwtConfigService,
-                private readonly _userDao: UserDao,
-                private readonly _randomStringService: RandomStringService,
-                private readonly _hashService: HashService) {
-
-        this._users = [] as User[];
-        this._users[0] = {login: 'test', password:'test', email:'test@test.com'};
-    }
-
-    verifLogin(toVerif: VerifLoginDto): Observable<UserEntity>{
-        return from (this._userDao.findByLogin(toVerif.login)).pipe(
-            catchError(e => throwError(new UnprocessableEntityException(e.message))),
-            mergeMap(_ => !!_ ?
-                this._verifPassword(new UserEntity(_), toVerif.password):
-                throwError( new NotFoundException('wrong login or password'))
+    /**
+     * Verification of user password
+     * @param user
+     * @param password
+     */
+    validateUser(user: UserEntity, password: string): Observable<UserEntity>{
+        return this._hashService.generate(password, user.salt, 4096, 24, 'sha256')
+            .pipe(
+                tap(_ => console.log(user)),
+            mergeMap(_ => _.toString('hex') === user.password ?
+                this._assignToken(user)
+                : throwError( new NotFoundException('wrong login or password'))
             )
         );
     }
 
+    /**
+     * Assign a JWT's token to a logged in user
+     * @param user
+     * @private
+     */
     private _assignToken(user: UserEntity): Observable<UserEntity>{
         return of(user).pipe(
             tap(_ => _.token = this._jwtService.sign(
                 {sub: _.login},
                 this._jwtOption.createSignOption()
             )),
-          map(_ => _)
+            map(_ => _)
         );
     }
 
-    createLogin(user: CreateUserDto): Observable<UserEntity>{
-        return this._addUser(user)
-            .pipe(
-            mergeMap(_ => this._userDao.save(_)),
-                catchError(e =>
-                    e.code === 11000 ?
-                        throwError(
-                            new ConflictException(`User with login '${user.login}' already exists`),
-                        ) :
-                        throwError(new UnprocessableEntityException(e.message)),
-                ),
-                map(_ => new UserEntity(_)),
-            );
-    }
+    /**
+     * Build a user hashed password to replace the user password
+     * @param user
+     * @private
+     */
 
-    private _addUser(user: CreateUserDto): Observable<CreateUserDto> {
-
+    generatePassword(user: CreateUserDto): Observable<User> {
         return this._randomStringService.generate().pipe(
             tap(_ => user.salt = _),
             mergeMap(_ => this._hashService.generate(user.password, _, 4096, 24, 'sha256')),
             tap(_ => user.password = _.toString('hex')),
             mergeMap(_ =>
-            of(user).pipe(
-                map(_ => Object.assign(_, {
-                        token: '',
-                    }) as User,
-                ),
-                map(_ => _)
-            )));
+                of(user).pipe(
+                    map(_ => Object.assign(_, {
+                            token: '',
+                        }) as User,
+                    ),
+                )));
     }
 
-    findAll(): Observable<UserEntity[] | void> {
-        return this._userDao.find()
-            .pipe(
-                map(_ => !!_ ? _.map(__ => new UserEntity(__)) : undefined),
-            );
-    }
+    /**
+     * Check token's signature
+     * @param token
+     */
+    validateToken(token: string, login: string): Observable<boolean> {
 
-    private _verifPassword(user: UserEntity, password: string): Observable<UserEntity> {
+        return this._jwtService.verify(token, this._jwtOption.createSignOption()).
+        pipe(
+            tap(_ => console.log(_)),
 
-            return this._hashService.generate(password, user.salt, 4096, 24, 'sha256').pipe(
-                mergeMap(_ => _.toString('hex') === user.password ? this._assignToken(user):
-                    throwError( new NotFoundException('wrong login or password')))
-            );
+
+        );
     }
 }

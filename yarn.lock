@@ -648,6 +648,11 @@
   resolved "https://registry.yarnpkg.com/@nestjs/mongoose/-/mongoose-7.1.0.tgz#abcda46ac54ea5529e09bad1755ff4d052dc63a4"
   integrity sha512-cIUgz8Gg2o827S33GtsKIOCxQDA166BqY89CjPRCOtLI72+0JzIXOca05Ms80suRQNoJxcYJ6oOUZfUni9/apA==
 
+"@nestjs/passport@^7.1.3":
+  version "7.1.3"
+  resolved "https://registry.yarnpkg.com/@nestjs/passport/-/passport-7.1.3.tgz#9b0860f9925ae410a30b4c3279343a5f11d46597"
+  integrity sha512-kQp1oDbfdsxlWxXCSshswysCjtfRCiBsYmpVD6s//fTEHpFZRM1XBuQ6jEVPCIQrtfhytqmi7wzMdgv8PVtKIA==
+
 "@nestjs/platform-express@^7.0.0":
   version "7.5.4"
   resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-7.5.4.tgz#46892a413432b7c2171f74804ba95b829295d32b"
@@ -801,6 +806,14 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
+"@types/body-parser@*":
+  version "1.19.0"
+  resolved "https://registry.yarnpkg.com/@types/body-parser/-/body-parser-1.19.0.tgz#0685b3c47eb3006ffed117cdd55164b61f80538f"
+  integrity sha512-W98JrE0j2K78swW4ukqMleo8R7h/pFETjM2DQ90MF6XK2i4LO4W3gQ71Lt4w3bfm2EvVSyWHplECvB5sK22yFQ==
+  dependencies:
+    "@types/connect" "*"
+    "@types/node" "*"
+
 "@types/bson@*":
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/@types/bson/-/bson-4.0.3.tgz#30889d2ffde6262abbe38659364c631454999fbf"
@@ -817,6 +830,13 @@
     "@types/keyv" "*"
     "@types/node" "*"
     "@types/responselike" "*"
+
+"@types/connect@*":
+  version "3.4.33"
+  resolved "https://registry.yarnpkg.com/@types/connect/-/connect-3.4.33.tgz#31610c901eca573b8713c3330abc6e6b9f588546"
+  integrity sha512-2+FrkXY4zllzTNfJth7jOqEHC+enpLeGslEhpnTAkg21GkRrWV4SsAtqchtT4YS9/nODBU2/ZfsBY2X4J/dX7A==
+  dependencies:
+    "@types/node" "*"
 
 "@types/cookiejar@*":
   version "2.1.2"
@@ -843,6 +863,25 @@
   version "0.0.45"
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.45.tgz#e9387572998e5ecdac221950dab3e8c3b16af884"
   integrity sha512-jnqIUKDUqJbDIUxm0Uj7bnlMnRm1T/eZ9N+AVMqhPgzrba2GhGG5o/jCTwmdPK709nEZsGoMzXEDUjcXHa3W0g==
+
+"@types/express-serve-static-core@*":
+  version "4.17.13"
+  resolved "https://registry.yarnpkg.com/@types/express-serve-static-core/-/express-serve-static-core-4.17.13.tgz#d9af025e925fc8b089be37423b8d1eac781be084"
+  integrity sha512-RgDi5a4nuzam073lRGKTUIaL3eF2+H7LJvJ8eUnCI0wA6SNjXc44DCmWNiTLs/AZ7QlsFWZiw/gTG3nSQGL0fA==
+  dependencies:
+    "@types/node" "*"
+    "@types/qs" "*"
+    "@types/range-parser" "*"
+
+"@types/express@*":
+  version "4.17.9"
+  resolved "https://registry.yarnpkg.com/@types/express/-/express-4.17.9.tgz#f5f2df6add703ff28428add52bdec8a1091b0a78"
+  integrity sha512-SDzEIZInC4sivGIFY4Sz1GG6J9UObPwCInYJjko2jzOf/Imx/dlpume6Xxwj1ORL82tBbmN4cPDIDkLbWHk9hw==
+  dependencies:
+    "@types/body-parser" "*"
+    "@types/express-serve-static-core" "*"
+    "@types/qs" "*"
+    "@types/serve-static" "*"
 
 "@types/graceful-fs@^4.1.2":
   version "4.1.4"
@@ -923,6 +962,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/mime@*":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@types/mime/-/mime-2.0.3.tgz#c893b73721db73699943bfc3653b1deb7faa4a3a"
+  integrity sha512-Jus9s4CDbqwocc5pOAnh8ShfrnMcPHuJYzVcSUU7lrh8Ni5HuIqX3oilL86p3dlTrk0LzHRCgA/GQ7uNCw6l2Q==
+
 "@types/mongodb@*":
   version "3.5.33"
   resolved "https://registry.yarnpkg.com/@types/mongodb/-/mongodb-3.5.33.tgz#1084c3004a426df11b5a985641e7f58d7ceb52a6"
@@ -971,6 +1015,30 @@
   resolved "https://registry.yarnpkg.com/@types/parse-json/-/parse-json-4.0.0.tgz#2f8bb441434d163b35fb8ffdccd7138927ffb8c0"
   integrity sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==
 
+"@types/passport-local@^1.0.33":
+  version "1.0.33"
+  resolved "https://registry.yarnpkg.com/@types/passport-local/-/passport-local-1.0.33.tgz#d245b60c5b801cb3aeca1ffab557d5fe1534260d"
+  integrity sha512-+rn6ZIxje0jZ2+DAiWFI8vGG7ZFKB0hXx2cUdMmudSWsigSq6ES7Emso46r4HJk0qCgrZVfI8sJiM7HIYf4SbA==
+  dependencies:
+    "@types/express" "*"
+    "@types/passport" "*"
+    "@types/passport-strategy" "*"
+
+"@types/passport-strategy@*":
+  version "0.2.35"
+  resolved "https://registry.yarnpkg.com/@types/passport-strategy/-/passport-strategy-0.2.35.tgz#e52f5212279ea73f02d9b06af67efe9cefce2d0c"
+  integrity sha512-o5D19Jy2XPFoX2rKApykY15et3Apgax00RRLf0RUotPDUsYrQa7x4howLYr9El2mlUApHmCMv5CZ1IXqKFQ2+g==
+  dependencies:
+    "@types/express" "*"
+    "@types/passport" "*"
+
+"@types/passport@*":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@types/passport/-/passport-1.0.4.tgz#1b35c4e197560d3974fa5f71711b6e9cce0711f0"
+  integrity sha512-h5OfAbfBBYSzjeU0GTuuqYEk9McTgWeGQql9g3gUw2/NNCfD7VgExVRYJVVeU13Twn202Mvk9BT0bUrl30sEgA==
+  dependencies:
+    "@types/express" "*"
+
 "@types/pem@^1.9.5":
   version "1.9.5"
   resolved "https://registry.yarnpkg.com/@types/pem/-/pem-1.9.5.tgz#cd5548b5e0acb4b41a9e21067e9fcd8c57089c99"
@@ -983,16 +1051,34 @@
   resolved "https://registry.yarnpkg.com/@types/prettier/-/prettier-2.1.5.tgz#b6ab3bba29e16b821d84e09ecfaded462b816b00"
   integrity sha512-UEyp8LwZ4Dg30kVU2Q3amHHyTn1jEdhCIE59ANed76GaT1Vp76DD3ZWSAxgCrw6wJ0TqeoBpqmfUHiUDPs//HQ==
 
+"@types/qs@*":
+  version "6.9.5"
+  resolved "https://registry.yarnpkg.com/@types/qs/-/qs-6.9.5.tgz#434711bdd49eb5ee69d90c1d67c354a9a8ecb18b"
+  integrity sha512-/JHkVHtx/REVG0VVToGRGH2+23hsYLHdyG+GrvoUGlGAd0ErauXDyvHtRI/7H7mzLm+tBCKA7pfcpkQ1lf58iQ==
+
 "@types/randomstring@^1.1.6":
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/@types/randomstring/-/randomstring-1.1.6.tgz#45cdc060a6f043d610bcd46503a6887db2a209c3"
   integrity sha512-XRIZIMTxjcUukqQcYBdpFWGbcRDyNBXrvTEtTYgFMIbBNUVt+9mCKsU+jUUDLeFO/RXopUgR5OLiBqbY18vSHQ==
+
+"@types/range-parser@*":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@types/range-parser/-/range-parser-1.2.3.tgz#7ee330ba7caafb98090bece86a5ee44115904c2c"
+  integrity sha512-ewFXqrQHlFsgc09MK5jP5iR7vumV/BYayNC6PgJO2LPe8vrnNFyjQjSppfEngITi0qvfKtzFvgKymGheFM9UOA==
 
 "@types/responselike@*", "@types/responselike@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@types/responselike/-/responselike-1.0.0.tgz#251f4fe7d154d2bad125abe1b429b23afd262e29"
   integrity sha512-85Y2BjiufFzaMIlvJDvTTB8Fxl2xfLo4HgmHzVBz08w4wDePCTjYw66PdrolO0kzli3yam/YCgRufyo1DdQVTA==
   dependencies:
+    "@types/node" "*"
+
+"@types/serve-static@*":
+  version "1.13.8"
+  resolved "https://registry.yarnpkg.com/@types/serve-static/-/serve-static-1.13.8.tgz#851129d434433c7082148574ffec263d58309c46"
+  integrity sha512-MoJhSQreaVoL+/hurAZzIm8wafFR6ajiTM1m4A0kv6AGeVBl4r4pOV8bGFrjjq1sGxDTnCoF8i22o0/aE5XCyA==
+  dependencies:
+    "@types/mime" "*"
     "@types/node" "*"
 
 "@types/source-list-map@*":
@@ -5382,6 +5468,26 @@ pascalcase@^0.1.1:
   resolved "https://registry.yarnpkg.com/pascalcase/-/pascalcase-0.1.1.tgz#b363e55e8006ca6fe21784d2db22bd15d7917f14"
   integrity sha1-s2PlXoAGym/iF4TS2yK9FdeRfxQ=
 
+passport-local@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/passport-local/-/passport-local-1.0.0.tgz#1fe63268c92e75606626437e3b906662c15ba6ee"
+  integrity sha1-H+YyaMkudWBmJkN+O5BmYsFbpu4=
+  dependencies:
+    passport-strategy "1.x.x"
+
+passport-strategy@1.x.x:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/passport-strategy/-/passport-strategy-1.0.0.tgz#b5539aa8fc225a3d1ad179476ddf236b440f52e4"
+  integrity sha1-tVOaqPwiWj0a0XlHbd8ja0QPUuQ=
+
+passport@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/passport/-/passport-0.4.1.tgz#941446a21cb92fc688d97a0861c38ce9f738f270"
+  integrity sha512-IxXgZZs8d7uFSt3eqNjM9NQ3g3uQCW5avD8mRNoXV99Yig50vjuaez6dQK2qC0kVWPRTujxY0dWgGfT09adjYg==
+  dependencies:
+    passport-strategy "1.x.x"
+    pause "0.0.1"
+
 path-exists@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/path-exists/-/path-exists-3.0.0.tgz#ce0ebeaa5f78cb18925ea7d810d7b59b010fd515"
@@ -5438,6 +5544,11 @@ path-type@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
+
+pause@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/pause/-/pause-0.0.1.tgz#1d408b3fdb76923b9543d96fb4c9dfd535d9cb5d"
+  integrity sha1-HUCLP9t2kjuVQ9lvtMnf1TXZy10=
 
 pem@^1.14.2:
   version "1.14.4"
