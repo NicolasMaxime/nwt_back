@@ -1,3 +1,5 @@
+use components
+
 db.getCollection('processors').insertMany([
   {
     "designer": "Intel",

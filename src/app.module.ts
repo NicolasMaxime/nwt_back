@@ -7,8 +7,8 @@ import {LoginModule} from './login/login.module';
 @Module({
   imports: [
       LoginModule,
-      //ProcessorModule,
-    //MongooseModule.forRoot(Config.get<string>('mongodb.uri'), Config.get<MongooseModuleOptions>('mongodb.options')),
+      ProcessorModule,
+      MongooseModule.forRoot(Config.get<string>('mongodb.uri'), Config.get<MongooseModuleOptions>('mongodb.options')),
   ],
 })
 export class AppModule {}

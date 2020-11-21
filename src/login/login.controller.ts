@@ -3,8 +3,8 @@ import {VerifLoginDto} from './dto/verif-login.dto';
 import {AuthService} from './service/auth/auth.service';
 import {CreateUserDto} from './dto/create-user.dto';
 import {Observable} from 'rxjs';
-import {ApiConflictResponse, ApiNoContentResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags} from '@nestjs/swagger';
 import {UserEntity} from './entity/UserEntity';
+import {UserDao} from './dao/user.dao';
 
 @Controller('login')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -22,7 +22,7 @@ export class LoginController {
      */
     @Get('all')
     getallUsers() : Observable<UserEntity[] | void>{
-        return this._auth.findall();
+        return this._auth.findAll();
     }
 
     /**
