@@ -4,12 +4,10 @@ import {User} from '../schemas/user.schema';
 import {Model, MongooseDocument} from 'mongoose';
 import {from, Observable, of, throwError} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {log} from 'util';
-import {AuthEntity} from '../entity/AuthEntity';
 import {CreateUserDto} from '../dto/create-user.dto';
 
 @Injectable()
-export class UserDao {
+export class UserAuthDao {
     /**
      * Class constructor
      *
@@ -18,19 +16,8 @@ export class UserDao {
     constructor(@InjectModel(User.name) private readonly _userModel: Model<User>) {
     }
 
-
     /**
-     * Return all users
-     */
-    find(): Observable<User[] | void> {
-        return from(this._userModel.find({}))
-            .pipe(
-                map((docs: MongooseDocument[]) => (!!docs && docs.length > 0) ? docs.map(_ => _.toJSON()) : undefined),
-            );
-    }
-
-    /**
-     * Find and return a user by its login
+     * Find and return a user by its user
      * @param login
      */
     findByLogin(login: string): Observable<User | void> {
@@ -49,5 +36,12 @@ export class UserDao {
             .pipe(
                 map((doc: MongooseDocument) => doc.toJSON())
             )
+    }
+
+    find() {
+        return from(this._userModel.find({}))
+            .pipe(
+                map((docs: MongooseDocument[]) => (!!docs && docs.length > 0) ? docs.map(_ => _.toJSON()) : undefined),
+            );
     }
 }

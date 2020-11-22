@@ -1,7 +1,5 @@
 import {CanActivate, ExecutionContext, Injectable} from '@nestjs/common';
 import {Observable} from 'rxjs';
-import {LoginService} from '../service/auth/login.service';
-import {CreateUserDto} from '../dto/create-user.dto';
 import {AuthService} from '../service/auth/auth.service';
 
 @Injectable()

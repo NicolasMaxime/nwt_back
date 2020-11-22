@@ -1,12 +1,11 @@
 import {Injectable, NotFoundException} from '@nestjs/common';
-import {AuthEntity} from '../../entity/AuthEntity';
+import {UserEntity} from '../../entities/user.entity';
 import {map, mergeMap, tap} from 'rxjs/operators';
 import {Observable, of, throwError} from 'rxjs';
 import {HashService, RandomStringService} from '@akanass/nestjsx-crypto';
 import {JwtService} from '@nestjs/jwt';
 import {JwtConfigService} from '../jwt-config/jwt-config.service';
 import {CreateUserDto} from '../../dto/create-user.dto';
-import {UserEntity} from '../../../../dist/login/entity/UserEntity';
 
 @Injectable()
 export class AuthService {
@@ -22,12 +21,12 @@ export class AuthService {
      * @param user
      * @param password
      */
-    validateUser(user: AuthEntity, password: string): Observable<AuthEntity>{
+    validateUser(user: UserEntity, password: string): Observable<UserEntity>{
         return this._hashService.generate(password, user.salt, 4096, 24, 'sha256')
             .pipe(
                 mergeMap(_ => _.toString('hex') === user.password ?
                 this.assignToken(user)
-                : throwError( new NotFoundException('wrong login or password'))
+                : throwError( new NotFoundException('wrong user or password'))
             )
         );
     }
@@ -37,7 +36,7 @@ export class AuthService {
      * @param user
      * @private
      */
-    assignToken(user: AuthEntity): Observable<AuthEntity>{
+    assignToken(user: UserEntity): Observable<UserEntity>{
         return of(user).pipe(
             tap(_ => _.token = this._jwtService.sign(
                 {sub: _.login},
@@ -53,7 +52,7 @@ export class AuthService {
      * @private
      */
 
-    generatePassword(user: CreateUserDto): Observable<AuthEntity> {
+    generatePassword(user: CreateUserDto): Observable<UserEntity> {
         return this._randomStringService.generate().pipe(
             tap(_ => user.salt = _),
             mergeMap(_ => this._hashService.generate(user.password, _, 4096, 24, 'sha256')),
@@ -62,7 +61,7 @@ export class AuthService {
                 of(user).pipe(
                     map(_ => Object.assign(_, {
                             token: '',
-                        }) as AuthEntity,
+                        }) as UserEntity,
                     ),
                 )));
     }
@@ -73,11 +72,6 @@ export class AuthService {
      */
     validateToken(token: string, login: string): Observable<boolean> {
 
-        return this._jwtService.verify(token, this._jwtOption.createSignOption()).
-        pipe(
-            tap(_ => console.log(_)),
-
-
-        );
+        return this._jwtService.verify(token, this._jwtOption.createSignOption());
     }
 }

@@ -1,17 +1,17 @@
 import {Logger, Module} from '@nestjs/common';
-import { LoginController } from './login.controller';
-import { LoginService } from './service/auth/login.service';
+import { UserController } from './user.controller';
+import { UserService } from './service/auth/user.service';
 import {JwtModule} from '@nestjs/jwt';
 import { JwtConfigService } from './service/jwt-config/jwt-config.service';
 import {MongooseModule} from '@nestjs/mongoose';
 import {User, UserSchema} from './schemas/user.schema';
-import {UserDao} from './dao/user.dao';
+import {UserAuthDao} from './dao/userAuth.dao';
 import {CryptoModule} from '@akanass/nestjsx-crypto';
 import {AuthService} from './service/auth/auth.service';
 
 @Module({
     controllers: [
-      LoginController,
+      UserController,
     ],
     imports: [
         JwtModule.registerAsync({
@@ -20,6 +20,7 @@ import {AuthService} from './service/auth/auth.service';
         CryptoModule,
         MongooseModule.forFeature([{name: User.name, schema: UserSchema}])
     ],
-    providers: [LoginService, JwtConfigService, AuthService, UserDao]
+    exports: [UserService, JwtConfigService, AuthService],
+    providers: [UserService, JwtConfigService, AuthService, UserAuthDao]
 })
-export class LoginModule {}
+export class UserModule {}

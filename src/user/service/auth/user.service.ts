@@ -3,30 +3,29 @@ import {VerifLoginDto} from '../../dto/verif-login.dto';
 import {CreateUserDto} from '../../dto/create-user.dto';
 import {from, Observable, of, throwError} from 'rxjs';
 import {catchError, filter, find, map, mergeMap, tap} from 'rxjs/operators';
-import {AuthEntity} from '../../entity/AuthEntity';
-import {UserDao} from '../../dao/user.dao';
+import {UserEntity} from '../../entities/user.entity';
+import {UserAuthDao} from '../../dao/userAuth.dao';
 import {AuthService} from './auth.service';
 
 @Injectable()
-export class LoginService {
+export class UserService {
 
     constructor(private _auth: AuthService,
-                private readonly _userDao: UserDao,
+                private readonly _userDao: UserAuthDao,
                 ) {
     }
 
     /**
-     * Get login && mdp from db then check
+     * Get user && mdp from db then check
      * if given password is correct
      * @param toVerif
      */
-    verifLogin(toVerif: VerifLoginDto): Observable<AuthEntity>{
+    verifLogin(toVerif: VerifLoginDto): Observable<UserEntity>{
         return from (this._userDao.findByLogin(toVerif.login)).pipe(
-            tap(_ => console.log(toVerif)),
             catchError(e => throwError(new UnprocessableEntityException(e.message))),
             mergeMap(_ => !!_ ?
-                this._auth.validateUser(new AuthEntity(_), toVerif.password):
-                throwError( new NotFoundException('wrong login or password'))
+                this._auth.validateUser(new UserEntity(_), toVerif.password):
+                throwError( new NotFoundException('wrong user or password'))
             )
         );
     }
@@ -35,7 +34,7 @@ export class LoginService {
      * Call userDao to save a user
      * @param user
      */
-    createLogin(user: CreateUserDto): Observable<AuthEntity>{
+    createLogin(user: CreateUserDto): Observable<UserEntity>{
         return this._auth.generatePassword(user)
             .pipe(
             mergeMap(_ => this._userDao.save(_)),
@@ -46,17 +45,26 @@ export class LoginService {
                         ) :
                         throwError(new UnprocessableEntityException(e.message)),
                 ),
-                map(_ => new AuthEntity(_)),
+                map(_ => new UserEntity(_)),
             );
     }
 
-    /**
-     * Call DAO to find all users
-     */
-    findAll(): Observable<AuthEntity[] | void> {
+    findOne(login: string): Observable<UserEntity | void> {
+        return this._userDao.findByLogin(login)
+            .pipe(
+                catchError(e => throwError(new UnprocessableEntityException(e.message))),
+                mergeMap(_ =>
+                    !!_ ?
+                        of(new UserEntity(_)) :
+                        throwError(new NotFoundException(`user with login '${login}' not found`)),
+                ),
+            );
+    }
+
+    findAll(): Observable<UserEntity[] | void> {
         return this._userDao.find()
             .pipe(
-                map(_ => !!_ ? _.map(__ => new AuthEntity(__)) : undefined),
+                map(_ => !!_ ? _.map(__ => new UserEntity(__)) : undefined),
             );
     }
 }
