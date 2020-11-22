@@ -7,6 +7,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ProcessorModule } from './processor/processor.module';
 import { AppConfig } from './interfaces/app-config.interface';
 import { SwaggerConfig } from './interfaces/swagger-config.interface';
+import { ConfigurationModule } from './configuration/configuration.module';
 
 async function bootstrap(config: AppConfig, swaggerConfig : SwaggerConfig) {
     const app = await NestFactory.create<NestFastifyApplication>(
@@ -30,16 +31,15 @@ async function bootstrap(config: AppConfig, swaggerConfig : SwaggerConfig) {
       .setTitle(swaggerConfig.title)
       .setDescription(swaggerConfig.description)
       .setVersion(swaggerConfig.version)
-      .addTag(swaggerConfig.tag)
       .build();
 
     // create swagger document
-    const processorDocument = SwaggerModule.createDocument(app, options, {
-        include: [ ProcessorModule ],
+    const document = SwaggerModule.createDocument(app, options, {
+        include: [ ProcessorModule , ConfigurationModule],
     });
 
     // setup swagger module
-    SwaggerModule.setup(swaggerConfig.path, app, processorDocument);
+    SwaggerModule.setup(swaggerConfig.path, app, document);
 
     // launch server
     await app.listen(config.port, config.host);

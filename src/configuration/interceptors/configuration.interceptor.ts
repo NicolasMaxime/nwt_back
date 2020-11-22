@@ -1,11 +1,10 @@
 import { CallHandler, ExecutionContext, Injectable, Logger, NestInterceptor } from '@nestjs/common';
 import { merge, Observable, of } from 'rxjs';
-import { filter, map, mergeMap, tap } from 'rxjs/operators';
 import { FastifyReply } from 'fastify';
-
+import { filter, map, mergeMap, tap } from 'rxjs/operators';
 
 @Injectable()
-export class ProcessorInterceptor implements NestInterceptor {
+export class ConfigurationInterceptor implements NestInterceptor {
   /**
    * Class constructor
    * @param _logger
@@ -23,7 +22,7 @@ export class ProcessorInterceptor implements NestInterceptor {
     const cls = context.getClass();
     const handler = context.getHandler();
     const response: FastifyReply = context.switchToHttp().getResponse<FastifyReply>();
-    const logCtx = `ProcessorInterceptor => ${cls.name}.${handler.name}`;
+    const logCtx = `ConfigurationInterceptor => ${cls.name}.${handler.name}`;
 
     return next.handle()
       .pipe(
