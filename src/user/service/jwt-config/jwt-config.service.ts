@@ -11,9 +11,9 @@ export class JwtConfigService implements JwtOptionsFactory{
 
     createSignOption(): JwtSignOptions{
         return  {
-                algorithm: 'HS512', // algo de hashage
-                expiresIn: '2h'
-                };
+            algorithm: 'HS512', // algo de hashage
+            expiresIn: '2h'
+            };
     }
 
 }

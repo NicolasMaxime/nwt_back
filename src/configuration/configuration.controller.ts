@@ -35,13 +35,13 @@ export class ConfigurationController {
   }
 
   /**
-   * Handler to answer to GET /configuration route
+   * Handler to answer to GET /configuration/all route
    *
    * @returns Observable<ConfigurationEntity[] | void>
    */
   @ApiOkResponse({ description: 'Returns an array of configuration', type: ConfigurationEntity, isArray: true })
   @ApiNoContentResponse({ description: 'No configuration exists in database' })
-  @Get()
+  @Get('all')
   findAll(): Observable<ConfigurationEntity[] | void> {
     return this._configurationService.findAll();
   }
