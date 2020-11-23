@@ -13,6 +13,10 @@ export class UserEntity{
     @Type(() => String)
     token: string;
 
+    @Expose()
+    @Type(() => Boolean)
+    admin: boolean;
+
     @Type(() => String)
     salt: string;
 

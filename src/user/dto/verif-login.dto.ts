@@ -9,5 +9,8 @@ export class VerifLoginDto {
     password: string;
 
     @IsOptional()
+    admin?: boolean;
+
+    @IsOptional()
     token?: string;
 }

@@ -6,7 +6,6 @@ import {HashService, RandomStringService} from '@akanass/nestjsx-crypto';
 import {JwtService} from '@nestjs/jwt';
 import {JwtConfigService} from '../jwt-config/jwt-config.service';
 import {CreateUserDto} from '../../dto/create-user.dto';
-import {log} from "util";
 
 @Injectable()
 export class AuthService {
@@ -40,7 +39,7 @@ export class AuthService {
     assignToken(user: UserEntity): Observable<UserEntity>{
         return of(user).pipe(
             tap(_ => _.token = this._jwtService.sign(
-                {sub: _.login},
+                {sub: _.login,admin: _.admin},
                 this._jwtOption.createSignOption()
             )),
             map(_ => _)
@@ -61,6 +60,7 @@ export class AuthService {
             mergeMap(_ =>
                 of(user).pipe(
                     map(_ => Object.assign(_, {
+                            admin: false,
                             token: '',
                         }) as UserEntity,
                     ),

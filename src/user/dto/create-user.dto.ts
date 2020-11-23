@@ -1,5 +1,4 @@
-import {IsEmail, IsMongoId, IsNotEmpty, IsOptional} from 'class-validator';
-import {ApiProperty} from '@nestjs/swagger';
+import {IsNotEmpty, IsOptional} from 'class-validator';
 
 export class CreateUserDto {
     @IsNotEmpty()
@@ -7,6 +6,9 @@ export class CreateUserDto {
 
     @IsNotEmpty()
     password: string;
+
+    @IsOptional()
+    admin?: boolean;
 
     @IsOptional()
     salt?: string;

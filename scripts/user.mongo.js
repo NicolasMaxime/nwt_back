@@ -7,7 +7,8 @@ db.getCollection('users').insertMany([
         "salt" : "OM9qBDw5YXzSqnKSWWuFBtQ4HMtXbQ42",
         "firstname": "maxime",
         "lastname": "nicolas",
-        "email": "maxime1.nicolas@gmail.com"
+        "email": "maxime1.nicolas@gmail.com",
+        "admin" : true
     },
     {
         "login" : "test",
@@ -15,6 +16,7 @@ db.getCollection('users').insertMany([
         "salt" : "ZoeVpdfBmg5nWnHa2OF6sAt8FBU894ey",
         "firstname": "Robin",
         "lastname": "Bois",
-        "email": "robinD.bois@gmail.com"
+        "email": "robinD.bois@gmail.com",
+        "admin" : false
     }
 ])

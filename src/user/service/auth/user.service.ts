@@ -2,7 +2,7 @@ import {ConflictException, Injectable, NotFoundException, UnprocessableEntityExc
 import {VerifLoginDto} from '../../dto/verif-login.dto';
 import {CreateUserDto} from '../../dto/create-user.dto';
 import {from, Observable, of, throwError} from 'rxjs';
-import {catchError, filter, find, map, mergeMap, tap} from 'rxjs/operators';
+import {catchError, map, mergeMap} from 'rxjs/operators';
 import {UserEntity} from '../../entities/user.entity';
 import {UserAuthDao} from '../../dao/userAuth.dao';
 import {AuthService} from './auth.service';
