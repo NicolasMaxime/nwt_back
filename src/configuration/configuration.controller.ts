@@ -20,12 +20,14 @@ import {
 import { Observable } from 'rxjs';
 import { UpdateConfigurationDto } from './dto/update-configuration.dto';
 import { CreateConfigurationDto } from './dto/create-configuration.dto';
-import { ConfigurationEntity } from '../configuration/entities/configuration.entity';
+import { ConfigurationEntity } from './entities/configuration.entity';
 import { HandlerParams } from '../processor/validators/handler-params';
+import { ConfigurationInterceptor } from './interceptors/configuration.interceptor';
 
 @ApiTags('configuration')
 @Controller('configuration')
 @UseInterceptors(ClassSerializerInterceptor)
+@UseInterceptors(ConfigurationInterceptor)
 export class ConfigurationController {
   /**
    * Constructor of ConfigurationController

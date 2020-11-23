@@ -1,8 +1,13 @@
-import { Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { Observable, of, throwError } from 'rxjs';
 import { ProcessorEntity } from './entities/processor.entity';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { ProcessorDao } from './dao/processor.dao';
+import { CreateConfigurationDto } from '../configuration/dto/create-configuration.dto';
+import { ConfigurationEntity } from '../configuration/entities/configuration.entity';
+import { CreateProcessorDto } from './dto/create-processor.dto';
+import { UpdateConfigurationDto } from '../configuration/dto/update-configuration.dto';
+import { UpdateProcessorDto } from './dto/update-processor.dto';
 
 @Injectable()
 export class ProcessorService {
@@ -58,5 +63,84 @@ export class ProcessorService {
       );
   }
 
+  /**
+   * Check if processor already exists and add it in processors list
+   *
+   * @param processor to create
+   *
+   * @returns {Observable<ProcessorEntity>}
+   */
+  create(processor: CreateProcessorDto): Observable<ProcessorEntity> {
+    return this._addProcessor(processor)
+      .pipe(
+        mergeMap(_ => this._processorDao.save(_)),
+        catchError(e =>
+          e.code === 11000 ?
+            throwError(
+              new ConflictException(`Processor with model name '${processor.modelName}' already exists`),
+            ) :
+            throwError(new UnprocessableEntityException(e.message)),
+        ),
+        map(_ => new ProcessorEntity(_)),
+      );
+  }
+
+  /**
+   * Update a processor in processor_ list
+   *
+   * @param {string} id of the processor to update
+   * @param processor data to update
+   *
+   * @returns {Observable<ProcessorEntity>}
+   */
+  update(id: string, processor: UpdateProcessorDto): Observable<ProcessorEntity> {
+    return this._processorDao.findByIdAndUpdate(id, processor)
+      .pipe(
+        catchError(e =>
+          e.code === 11000 ?
+            throwError(
+              new ConflictException(`Processor with model name '${processor.modelName}' already exists`),
+            ) :
+            throwError(new UnprocessableEntityException(e.message)),
+        ),
+        mergeMap(_ =>
+          !!_ ?
+            of(new ProcessorEntity(_)) :
+            throwError(new NotFoundException(`Processor with id '${id}' not found`)),
+        ),
+      );
+  }
+
+  /**
+   * Deletes one processor in processors list
+   *
+   * @param {string} id of the processor to delete
+   *
+   * @returns {Observable<void>}
+   */
+  delete(id: string): Observable<void> {
+    return this._processorDao.findByIdAndRemove(id)
+      .pipe(
+        catchError(e => throwError(new UnprocessableEntityException(e.message))),
+        mergeMap(_ =>
+          !!_ ?
+            of(undefined) :
+            throwError(new NotFoundException(`Processor with id '${id}' not found`)),
+        ),
+      );
+  }
+
+  /**
+   * Add processor with good data in processors list
+   *
+   * @param processor to add
+   *
+   * @returns {Observable<CreateProcessorDto>}
+   *
+   * @private
+   */
+  private _addProcessor(processor: CreateProcessorDto): Observable<CreateProcessorDto> {
+    return of(processor);
+  }
 
 }
