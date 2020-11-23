@@ -6,6 +6,7 @@ import {HashService, RandomStringService} from '@akanass/nestjsx-crypto';
 import {JwtService} from '@nestjs/jwt';
 import {JwtConfigService} from '../jwt-config/jwt-config.service';
 import {CreateUserDto} from '../../dto/create-user.dto';
+import {log} from "util";
 
 @Injectable()
 export class AuthService {
@@ -70,8 +71,8 @@ export class AuthService {
      * Check token's signature
      * @param token
      */
-    validateToken(token: string, login: string): Observable<boolean> {
-
-        return this._jwtService.verify(token, this._jwtOption.createSignOption());
+    validateToken(token: string, login: string){
+        let x = this._jwtService.verify(token, this._jwtOption.createSignOption());
+        return x.sub === login;
     }
 }

@@ -5,6 +5,7 @@ import {CreateUserDto} from './dto/create-user.dto';
 import {Observable} from 'rxjs';
 import {HandlerParams} from './validators/handler-params';
 import {UserEntity} from './entities/user.entity';
+import {AuthGuardGet} from "./guards/auth.guard";
 
 @Controller('user')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -49,6 +50,7 @@ export class UserController {
      * GET route to fetch all user
      */
     @Get(':login')
+    @UseGuards(AuthGuardGet)
     getOne(@Param() params: HandlerParams): Observable<UserEntity | void>{
         return this._userService.findOne(params.login);
     }

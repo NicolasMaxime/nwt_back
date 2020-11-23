@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 import {AuthService} from '../service/auth/auth.service';
 
 @Injectable()
-export class AuthGuard implements CanActivate{
+export class AuthGuardGet implements CanActivate{
 
     constructor(private _auth: AuthService) {
     }
@@ -12,8 +12,14 @@ export class AuthGuard implements CanActivate{
         const request = context.switchToHttp().getRequest();
         const authorization = request.raw.headers.authorization;
         if (!authorization)
-            return false
+            return false;
         const token: string = authorization.split(' ')[1];
-        return false;
+        const login: string = authorization.split(' ')[2];
+        let nameInUrl: string = request.raw.url.split('/').pop();
+        let ok: boolean = this._auth.validateToken(token, login);
+        if (nameInUrl === login)
+            return ok;
+        else
+            return false;
     }
 }
