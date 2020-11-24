@@ -14,12 +14,9 @@ import {
     ApiOkResponse, ApiParam,
     ApiTags, ApiUnprocessableEntityResponse
 } from "@nestjs/swagger";
-import {UserInterceptor} from "./interceptors/user.interceptor";
 
 @Controller('user')
 @ApiTags('user')
-@UseInterceptors(ClassSerializerInterceptor)
-@UseInterceptors(UserInterceptor)
 export class UserController {
 
     /**
@@ -78,6 +75,7 @@ export class UserController {
         allowEmptyValue: false,
     })
     @UseGuards(AuthGuardGet)
+    @Get(':login')
     getOne(@Param() params: HandlerParams): Observable<UserEntity | void>{
         return this._userService.findOne(params.login);
     }
