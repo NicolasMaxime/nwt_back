@@ -41,10 +41,6 @@ export class ConfigurationInterceptor implements NestInterceptor {
                 map(_ => _),
               ),
           )),
-        tap(
-          _ => this._logger.log(!!_ ? _ : 'NO CONTENT', logCtx),
-          _ => this._logger.error(_.message, JSON.stringify(_), logCtx),
-        ),
       );
   }
 }

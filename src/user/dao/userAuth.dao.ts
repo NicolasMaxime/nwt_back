@@ -5,6 +5,8 @@ import {Model, MongooseDocument} from 'mongoose';
 import {from, Observable, of, throwError} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {CreateUserDto} from '../dto/create-user.dto';
+import {UpdateUserDto} from '../dto/update-user.dto';
+import {UserEntity} from '../entities/user.entity';
 
 @Injectable()
 export class UserAuthDao {
@@ -38,10 +40,22 @@ export class UserAuthDao {
             )
     }
 
-    find() {
+    find(): Observable<User[] | void> {
         return from(this._userModel.find({}))
             .pipe(
                 map((docs: MongooseDocument[]) => (!!docs && docs.length > 0) ? docs.map(_ => _.toJSON()) : undefined),
             );
+    }
+
+    updateByLogin(user: UpdateUserDto, login: string): Observable<User>{
+        return from(this._userModel.findOneAndUpdate({ login:login }, user)).pipe(
+            map((doc: MongooseDocument) => !!doc ? doc.toJSON() : undefined),
+        );
+    }
+
+    findByLoginAndRemove(login: string): Observable<User | void> {
+        return from(this._userModel.findOneAndDelete({ login:login })).pipe(
+            map((doc: MongooseDocument) => !!doc ? doc.toJSON() : undefined),
+        );
     }
 }

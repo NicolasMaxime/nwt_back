@@ -6,6 +6,7 @@ import {catchError, map, mergeMap} from 'rxjs/operators';
 import {UserEntity} from '../../entities/user.entity';
 import {UserAuthDao} from '../../dao/userAuth.dao';
 import {AuthService} from './auth.service';
+import {UpdateUserDto} from '../../dto/update-user.dto';
 
 @Injectable()
 export class UserService {
@@ -65,6 +66,31 @@ export class UserService {
         return this._userDao.find()
             .pipe(
                 map(_ => !!_ ? _.map(__ => new UserEntity(__)) : undefined),
+            );
+    }
+
+    update(user: UpdateUserDto, login: string): Observable<UserEntity> {
+        return this._userDao.updateByLogin(user, login).pipe(
+            catchError(e =>
+                    throwError(new UnprocessableEntityException(e.message)),
+            ),
+            mergeMap(_ =>
+                !!_ ?
+                    of(new UserEntity(_)) :
+                    throwError(new NotFoundException(`People with login '${login}' not found`)),
+            ),
+        );
+    }
+
+    delete(login: string): Observable<void> {
+        return this._userDao.findByLoginAndRemove(login)
+            .pipe(
+                catchError(e => throwError(new UnprocessableEntityException(e.message))),
+                mergeMap(_ =>
+                    !!_ ?
+                        of(undefined) :
+                        throwError(new NotFoundException(`Person with id '${login}' not found`)),
+                ),
             );
     }
 }

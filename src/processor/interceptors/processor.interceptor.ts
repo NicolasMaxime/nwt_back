@@ -44,7 +44,6 @@ export class ProcessorInterceptor implements NestInterceptor {
           )),
         tap(
           _ => this._logger.log(!!_ ? _ : 'NO CONTENT', logCtx),
-          _ => this._logger.error(_.message, JSON.stringify(_), logCtx),
         ),
       );
   }
