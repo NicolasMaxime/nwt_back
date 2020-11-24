@@ -8,6 +8,7 @@ import { ProcessorModule } from './processor/processor.module';
 import { AppConfig } from './interfaces/app-config.interface';
 import { SwaggerConfig } from './interfaces/swagger-config.interface';
 import { ConfigurationModule } from './configuration/configuration.module';
+import {UserModule} from "./user/user.module";
 
 async function bootstrap(config: AppConfig, swaggerConfig : SwaggerConfig) {
     const app = await NestFactory.create<NestFastifyApplication>(
@@ -35,7 +36,7 @@ async function bootstrap(config: AppConfig, swaggerConfig : SwaggerConfig) {
 
     // create swagger document
     const document = SwaggerModule.createDocument(app, options, {
-        include: [ ProcessorModule , ConfigurationModule],
+        include: [ ProcessorModule , ConfigurationModule, UserModule],
     });
 
     // setup swagger module

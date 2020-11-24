@@ -21,6 +21,6 @@ import {AuthService} from './service/auth/auth.service';
         MongooseModule.forFeature([{name: User.name, schema: UserSchema}])
     ],
     exports: [UserService, JwtConfigService, AuthService],
-    providers: [UserService, JwtConfigService, AuthService, UserAuthDao]
+    providers: [UserService, JwtConfigService, AuthService, UserAuthDao, Logger]
 })
 export class UserModule {}
