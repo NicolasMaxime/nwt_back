@@ -8,6 +8,11 @@ export class AuthGuardGet implements CanActivate{
     constructor(private _auth: AuthService) {
     }
 
+    /**
+     * Check if user has access to route where login is a param
+     * Check if login user == login which information are asked
+     * @param context
+     */
     canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
         const request = context.switchToHttp().getRequest();
         const authorization = request.raw.headers.authorization;

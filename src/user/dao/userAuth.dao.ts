@@ -40,6 +40,9 @@ export class UserAuthDao {
             )
     }
 
+    /**
+     * Find all user in database
+     */
     find(): Observable<User[] | void> {
         return from(this._userModel.find({}))
             .pipe(
@@ -47,12 +50,21 @@ export class UserAuthDao {
             );
     }
 
+    /**
+     * Update a user by his login
+     * @param user
+     * @param login
+     */
     updateByLogin(user: UpdateUserDto, login: string): Observable<User>{
         return from(this._userModel.findOneAndUpdate({ login:login }, user)).pipe(
             map((doc: MongooseDocument) => !!doc ? doc.toJSON() : undefined),
         );
     }
 
+    /**
+     * Find a user by his login and remove it
+     * @param login
+     */
     findByLoginAndRemove(login: string): Observable<User | void> {
         return from(this._userModel.findOneAndDelete({ login:login })).pipe(
             map((doc: MongooseDocument) => !!doc ? doc.toJSON() : undefined),

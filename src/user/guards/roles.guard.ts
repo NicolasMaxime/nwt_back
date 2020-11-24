@@ -10,6 +10,10 @@ export class RolesGuard implements CanActivate {
     this._logger = new Logger();
   }
 
+  /**
+   * Get if a user is an administrator
+   * @param _context
+   */
   canActivate(_context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
     const roles = this._reflector.get<string[]>('roles', _context.getHandler());
     if (!roles) {

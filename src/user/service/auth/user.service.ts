@@ -50,6 +50,10 @@ export class UserService {
             );
     }
 
+    /**
+     * Get one user by using userDao
+     * @param login
+     */
     findOne(login: string): Observable<UserEntity | void> {
         return this._userDao.findByLogin(login)
             .pipe(
@@ -62,6 +66,9 @@ export class UserService {
             );
     }
 
+    /**
+     * Get all user
+     */
     findAll(): Observable<UserEntity[] | void> {
         return this._userDao.find()
             .pipe(
@@ -69,6 +76,11 @@ export class UserService {
             );
     }
 
+    /**
+     * Update user
+     * @param user
+     * @param login
+     */
     update(user: UpdateUserDto, login: string): Observable<UserEntity> {
         return this._userDao.updateByLogin(user, login).pipe(
             catchError(e =>
@@ -82,6 +94,10 @@ export class UserService {
         );
     }
 
+    /**
+     * delete user
+     * @param login
+     */
     delete(login: string): Observable<void> {
         return this._userDao.findByLoginAndRemove(login)
             .pipe(

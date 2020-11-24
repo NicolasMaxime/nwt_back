@@ -7,6 +7,10 @@ export class UserGuard implements CanActivate {
   constructor(private _auth: AuthService) {
   }
 
+  /**
+   * Check is user has access to a page with a route without param
+   * @param context
+   */
   canActivate(context: ExecutionContext,): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest();
     const authorization = request.raw.headers.authorization;
