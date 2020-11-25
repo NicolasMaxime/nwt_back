@@ -17,4 +17,8 @@ export class VerifLoginDto {
     @ApiProperty({ name: 'token', description: 'User token to authenticate him', example: 'whodazuhfmgfzazihfvw2a8dfezz3f4azdfz' })
     @IsOptional()
     token?: string;
+
+    @ApiProperty({ name: 'salt', description: 'User salt to authenticate him', example: 'whodazuhfmgfzazihfvw2a8dfezz3f4azdfz' })
+    @IsOptional()
+    salt?: string;
 }

@@ -31,6 +31,12 @@ export class UserService {
         );
     }
 
+    private _deletefield(user: UserEntity): UserEntity{
+        delete user.password;
+        delete user.salt;
+        return user;
+    }
+
     /**
      * Call userDao to save a user
      * @param user
@@ -46,7 +52,7 @@ export class UserService {
                         ) :
                         throwError(new UnprocessableEntityException(e.message)),
                 ),
-                map(_ => new UserEntity(_)),
+                map(_ => this._deletefield(new UserEntity(_))),
             );
     }
 
@@ -60,7 +66,7 @@ export class UserService {
                 catchError(e => throwError(new UnprocessableEntityException(e.message))),
                 mergeMap(_ =>
                     !!_ ?
-                        of(new UserEntity(_)) :
+                        of(this._deletefield(new UserEntity(_))) :
                         throwError(new NotFoundException(`user with login '${login}' not found`)),
                 ),
             );
@@ -72,7 +78,7 @@ export class UserService {
     findAll(): Observable<UserEntity[] | void> {
         return this._userDao.find()
             .pipe(
-                map(_ => !!_ ? _.map(__ => new UserEntity(__)) : undefined),
+                map(_ => !!_ ? _.map(__ => this._deletefield(new UserEntity(__))) : undefined),
             );
     }
 
@@ -88,7 +94,7 @@ export class UserService {
             ),
             mergeMap(_ =>
                 !!_ ?
-                    of(new UserEntity(_)) :
+                    of(this._deletefield(new UserEntity(_))) :
                     throwError(new NotFoundException(`People with login '${login}' not found`)),
             ),
         );
@@ -108,5 +114,23 @@ export class UserService {
                         throwError(new NotFoundException(`Person with id '${login}' not found`)),
                 ),
             );
+    }
+
+    /**
+     * Update favorites of a user
+     * @param user
+     * @param login
+     */
+    updateFavorite(user: UpdateUserDto, login: string) : Observable<UserEntity>{
+        return this._userDao.updateFavoriteByLogin(user, login).pipe(
+            catchError(e =>
+                throwError(new UnprocessableEntityException(e.message)),
+            ),
+            mergeMap(_ =>
+                !!_ ?
+                    of(this._deletefield(new UserEntity(_))) :
+                    throwError(new NotFoundException(`People with login '${login}' not found`)),
+            ),
+        );
     }
 }

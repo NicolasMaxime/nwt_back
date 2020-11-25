@@ -1,5 +1,6 @@
 import {Exclude, Expose, Type} from 'class-transformer';
 import {ApiProperty} from "@nestjs/swagger";
+import {ConfigurationEntity} from "../../configuration/entities/configuration.entity";
 
 @Exclude()
 export class UserEntity{
@@ -39,6 +40,10 @@ export class UserEntity{
     @Type(() => String)
     email?: string;
 
+    @ApiProperty({ name: 'favorites', description: 'user\'s favorites', example: 'See configuration' })
+    @Expose()
+    @Type(() => ConfigurationEntity)
+    favorites?: ConfigurationEntity[];
 
     constructor(partial: Partial<UserEntity>) {
         Object.assign(this, partial);

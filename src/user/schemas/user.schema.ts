@@ -1,6 +1,7 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import * as mongoose from 'mongoose';
+import {ConfigurationSchema} from "../../configuration/schemas/configuration.schema";
 
 @Schema({ toJSON: { virtuals: true }, versionKey: false })
 export class User extends Document {
@@ -50,6 +51,20 @@ export class User extends Document {
         trim: true,
     })
     email: string;
+
+    @Prop([{
+        type: ConfigurationSchema,
+        required: false,
+        trim: true,
+        id: {
+            type: String,
+            required: true,
+            minlength: 2,
+            trim: true,
+            unique: true,
+            }
+    }])
+    favorites: any;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User)
