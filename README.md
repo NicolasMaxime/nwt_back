@@ -28,37 +28,58 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Installation
 
-```bash
-$ npm install
-```
+This project was made for the New Web Technologies' lesson taught by Nicolas Jesse : https://github.com/akanass/nwt-school-back-nestjs
 
-## Running the app
+## Installation & running
 
-```bash
-# development
-$ npm run start
+------------------------------------------------------------DATABASE : MONGODB -------------------------------------------------------------------
 
-# watch mode
-$ npm run start:dev
+First of all, install mongoDB : 
+ -Ubuntu : https://doc.ubuntu-fr.org/mongodb
 
-# production mode
-$ npm run start:prod
-```
+ -Debian : https://docs.mongodb.com/manual/tutorial/install-mongodb-on-debian/
+ 
+ -Windows :https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/
+ 
+ -other : https://docs.mongodb.com/manual/installation/
 
-## Test
 
-```bash
-# unit tests
-$ npm run test
+Then, you can use Robo3t, mongoCompass or another thing to your liking if you don't want to use a terminal.
 
-# e2e tests
-$ npm run test:e2e
+-> First launch your mongod (the service)
 
-# test coverage
-$ npm run test:cov
-```
+-> Then use your client to create a Data Base called 'components'.
+
+-> The port number need to be 27017
+
+-> Run the script init.mongo.js
+
+-> Then, run user.mongo.js
+
+-> After that, run indexconfiguration.mongo
+
+*All of thoose are in the 'script' repository
+
+Now, you should have a dabatabse 'components', and 3 collections... Or at least 2 ('configurations' and 'users' because it's  what is really needed)
+
+
+---------------------------------------------------------- The Server -----------------------------------
+
+Clone it.
+
+Go in it.
+
+Run: 'yarn install'
+
+Run: yarn start
+
+
+
+-> And finally, run configuration.mongo.js
+
+
+The server run with the front end client : https://github.com/NicolasMaxime/nwt
 
 ## Support
 
