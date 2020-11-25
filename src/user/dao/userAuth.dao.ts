@@ -3,7 +3,7 @@ import {InjectModel} from '@nestjs/mongoose';
 import {User} from '../schemas/user.schema';
 import {Model, MongooseDocument} from 'mongoose';
 import {from, Observable, of, throwError} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {map, mergeMap} from 'rxjs/operators';
 import {CreateUserDto} from '../dto/create-user.dto';
 import {UpdateUserDto} from '../dto/update-user.dto';
 import {UserEntity} from '../entities/user.entity';
@@ -69,5 +69,10 @@ export class UserAuthDao {
         return from(this._userModel.findOneAndDelete({ login:login })).pipe(
             map((doc: MongooseDocument) => !!doc ? doc.toJSON() : undefined),
         );
+    }
+
+    updateFavoriteByLogin(user: UpdateUserDto, login: string): Observable<User | void> {
+        this._userModel.findOneAndUpdate({ login:login }, {$set: {favorites: [] }});
+        return this.updateByLogin(user, login);
     }
 }

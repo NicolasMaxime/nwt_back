@@ -1,14 +1,16 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document , Schema as MongooseSchema} from 'mongoose';
-import { Processor } from '../../processor/schemas/processor.schema';
 
 @Schema({ toJSON: { virtuals: true }, versionKey: false })
 export class Configuration extends Document {
+
   @Prop({
     type: String,
     required: true,
     minlength: 2,
     trim: true,
+    unique: true,
+    index: true,
   })
   name:string;
 

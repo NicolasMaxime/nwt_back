@@ -8,10 +8,11 @@ import {User, UserSchema} from './schemas/user.schema';
 import {UserAuthDao} from './dao/userAuth.dao';
 import {CryptoModule} from '@akanass/nestjsx-crypto';
 import {AuthService} from './service/auth/auth.service';
+import {FavoriteController} from "./favorite.controller";
 
 @Module({
     controllers: [
-      UserController,
+      UserController, FavoriteController
     ],
     imports: [
         JwtModule.registerAsync({
