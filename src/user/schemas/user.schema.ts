@@ -16,6 +16,12 @@ export class User extends Document {
     login: string;
 
     @Prop({
+        type: Boolean,
+        required: false,
+    })
+    admin: boolean;
+
+    @Prop({
         type: String,
         required: true,
         minlength: 10,
@@ -56,13 +62,6 @@ export class User extends Document {
         type: ConfigurationSchema,
         required: false,
         trim: true,
-        id: {
-            type: String,
-            required: true,
-            minlength: 2,
-            trim: true,
-            unique: true,
-            }
     }])
     favorites: any;
 }
