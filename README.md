@@ -59,6 +59,8 @@ Then, you can use Robo3t, mongoCompass or another thing to your liking if you do
 
 -> After that, run indexconfiguration.mongo
 
+-> And finally, run configuration.mongo.js
+
 *All of thoose are in the 'script' repository
 
 Now, you should have a dabatabse 'components', and 3 collections... Or at least 2 ('configurations' and 'users' because it's  what is really needed)
@@ -73,10 +75,6 @@ Go in it.
 Run: 'yarn install'
 
 Run: yarn start
-
-
-
--> And finally, run configuration.mongo.js
 
 
 The server run with the front end client : https://github.com/NicolasMaxime/nwt
